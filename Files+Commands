@@ -1,0 +1,17 @@
+Network manager
+nmcli
+nmcli dev wifi list - list all wifis
+nmcli dev wifi connect [ssid] password "[password]"
+nmcli dev status    - check connection
+
+Turn into executable
+chmod a+x [name].AppImage
+
+VMware
+
+https://wiki.archlinux.org/title/VMware#Installation
+
+ZF3R0-FHED2-M80TY-8QYGC-NPKYF
+YF390-0HF8P-M81RQ-2DXQE-M2UT6
+ZF71R-DMX85-08DQY-8YMNC-PPHV8
+ZF3R0-FHED2-M80TY-8QYGC-NPKYF 
