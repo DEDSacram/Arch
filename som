@@ -1,0 +1,24 @@
+
+DEBTAP USEFUL PACKAGE
+
+
+
+
+Single GPU passthrough - VM won't start after adding GPU to hardware
+modprobe -r nvidia_drm
+modprobe -r nvidia_modeset
+modprobe -r nvidia_uvm
+modprobe -r nvidia
+modprobe -r ipmi_devintf
+modprobe -r ipmi_msghandler
+
+How to remove kernel module if it's still in use?
+/usr/bin/sudo /bin/umount -f -a -t cifs
+/usr/bin/sudo /bin/umount -f -l -a -t cifs
+sleep 5
+/usr/bin/sudo /sbin/modprobe -r -f cifs
+pkill nautilus
+
+
+sudo pacman -R virt-manager qemu vde2 dnsmasq edk2-ovmf qemu-arch-extra
+
