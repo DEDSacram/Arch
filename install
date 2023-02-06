@@ -84,6 +84,15 @@ pacstrap -i /mnt base
 Access the in-progress Arch installation
 arch-chroot /mnt
 
+set time server
+
+timedatectl set-ntp true
+
+timedatectl list-timezones
+
+timedatectl set-timezone Europe/Prague
+
+
 Install a kernel and headers
 pacman -S linux linux-headers
 
@@ -98,6 +107,9 @@ pacman -S nano
 
 Install optional packages
 pacman -S base-devel openssh
+
+if dualboot
+pacman -S ntfs-3g
 
 Enable OpenSSH if you’ve installed it
 systemctl enable sshd
@@ -215,3 +227,10 @@ umount -a
 
 Reboot the machine
 reboot
+
+additional
+
+yay -S linux-firmware
+
+if gnome 
+yay -S ttf-droid
