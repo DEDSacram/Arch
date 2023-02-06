@@ -102,6 +102,9 @@ pacman -S linux-lts linux-lts-headers
 Or both:
 pacman -S linux linux-lts linux-headers linux-lts-headers 
 
+- after reboot wlan0 is missing if not installed / if forgotten boot to usb and use iwd
+pacman -S linux-firmware
+
 Install a text editor
 pacman -S nano
 
@@ -229,8 +232,6 @@ Reboot the machine
 reboot
 
 additional
-
-yay -S linux-firmware
 
 if gnome 
 yay -S ttf-droid
