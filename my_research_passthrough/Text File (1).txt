@@ -1,0 +1,11 @@
+
+If nvidia cant be probed because it is used by xorg
+Systemctl isolate multi-user.target -> change drivers -> systemctl start graphical.target
+
+modprobe -r nvidia_drm
+modprobe -r nvidia_modeset
+modprobe -r nvidia_uvm
+modprobe -r nvidia
+
+modprobe -r ipmi_devintf
+modprobe -r ipmi_msghandler

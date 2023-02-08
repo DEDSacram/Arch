@@ -1,0 +1,77 @@
+ kill -9 $(nvidia-smi | sed -n 's/|\s*[0-9]*\s*\([0-9]*\)\s*.*/\1/p' | sort | uniq | sed '/^$/d')
+
+worked good for me.
+
+sed -n 's/|\s*[0-9]*\s*\([0-9]*\)\s*.*/\1/p' will find PID,
+sort | uniq will exract unique,
+sed '/^$/d' remove blank lines.
+
+
+nvidia-smi | grep 'freecad' | awk '{ print $5 }'
+nvidia-smi | grep 'freecad' | awk '{ print $5 }' | xargs -n1 kill -9
+
+
+https://www.ibm.com/docs/en/linux-on-systems?topic=setup-pci
+
+https://www.ibm.com/docs/en/linux-on-systems?topic=through-pci
+
+enable amd_immo in grub default cfg
+
+
+Example: In this example, a PCIe device with function address 0001:000:000:0, vendor code 15b3, and device code 1003 is available on the host. The specification for the ids= module parameter makes this card type eligible for the vfio_pci device driver.
+
+lspci -nn
+                                                                                                       vendor_code:deviceid
+01:00.0 VGA compatible controller [0300]: NVIDIA Corporation GA106M [GeForce RTX 3060 Mobile / Max-Q] [10de:2560] (rev a1)
+01:00.1 Audio device [0403]: NVIDIA Corporation GA106 High Definition Audio Controller [10de:228e] (rev a1)
+
+
+
+echo 0000:01:00.0 | sudo tee /sys/bus/pci/devices/0000:01:00.0/driver/unbind
+
+10de:2560
+
+
+sudo bash -c "echo '10de 2560' > '/sys/bus/pci/drivers/vfio-pci/new_id'"
+
+
+
+
+https://docs.kernel.org/driver-api/vfio.html
+
+
+
+
+
+# lspci -n
+0001:000:000:0 15b3:1003
+# modprobe vfio_pci ids=15b3:1003
+
+
+Example: The following specification for the vfio_pci.ids= kernel parameter makes the card type eligible for the vfio_pci device driver.
+
+vfio_pci.ids=15b3:1003
+
+On a running host, you can use the /sys/bus/pci/drivers/vfio-pci/new_id sysfs attribute to enable the vfio_pci device driver to control a particular PCIe card type. Write the vendor code and device code, separated by a blank, to the attribute.
+Example: This example, makes cards with vendor code 15b3 and device code 1003 eligible for the vfio_pci device driver.
+
+# echo 15b3 1003 > /sys/bus/pci/drivers/vfio-pci/new_id
+
+After setting up the vfio_pci device driver for one or more PCIe card types, all cards of these types that are freed from their default device driver are assigned to the vfio_pci device driver.
+Assigning a PCI device to the vfio_pci device driver
+For devices that are not managed by libvirt, write the function address of the PCIe device to the unbind attribute of its device driver.
+
+# echo <function_address> > /sys/bus/pci/drivers/<pci_device_driver>/unbind
+
+Tip: Issue lspci -v to find out which device driver controls the device of interest.
+Example:
+
+~]# lspci -v
+0001:00:00.0 Ethernet controller: Mellanox Technologies MT27500 Family [ConnectX-3]
+Subsystem: Mellanox Technologies Device 048d
+Physical Slot: 00000015
+...
+Kernel driver in use: mlx4_core
+Kernel modules: mlx4_core
+# echo 0001:00:00.0 > /sys/bus/pci/drivers/mlx4_core/unbind
+

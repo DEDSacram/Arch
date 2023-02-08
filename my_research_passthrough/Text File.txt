@@ -1,0 +1,29 @@
+ 
+Properties > General > Points to:
+
+change Exec= [program_name] %f
+to
+Exec= prime-run [program_name] %f
+
+
+
+
+I have the same nvidia driver version and for some reason prime-run command does not exist.
+
+I just solved it by doing the following:
+
+    Copy contents of the gist here
+
+    #!/bin/bash
+    export __NV_PRIME_RENDER_OFFLOAD=1
+    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+    export __VK_LAYER_NV_optimus=NVIDIA_only
+    export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json
+    exec "$@"
+
+    Create a file ~/bin/prime-run ("~" means your home directory)
+    Paste the contents there.
+    Run chmod +x "~/bin/prime-run" to make it executable.
+
+You might want to re-open your terminal or restart your session so your terminal could recognize your ~/bin folder and be able to run prime-run command, that is, if the folder is not already there.
+
